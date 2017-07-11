@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">University-android-task2</string>
+    <string name="age_radio_btn">Age</string>
+    <string name="gender_radio_btn">Gender</string>
+    <string name="ascending_sort_radio_btn">Ascending sort</string>
+    <string name="descending_sort_radio_btn">Descending sort</string>
 </resources>

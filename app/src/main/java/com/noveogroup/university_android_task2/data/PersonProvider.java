@@ -42,9 +42,9 @@ public class PersonProvider {
         return new Person(name, age, gender);
     }
 
-    public List<Person> getPersonsList() {
+    public List<Person> getPersonsList(int number) {
         final List<Person> result = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < number; i++) {
             result.add(getPerson());
         }
 
