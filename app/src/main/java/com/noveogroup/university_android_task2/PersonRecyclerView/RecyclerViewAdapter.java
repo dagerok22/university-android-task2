@@ -52,7 +52,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         );
     }
 
-    public List<Person> getItems() {
+    public ArrayList<Person> getItems() {
         return mDataSet;
     }
 
@@ -61,7 +61,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return position;
     }
 
-    public void setItems(final List<Person> newItems) {
+    public void setItems(final ArrayList<Person> newItems) {
         mDataSet.clear();
         mDataSet.addAll(newItems);
     }

@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private boolean mIsSortAscending;
     private SortKey mSortKey;
 
+    private static final String ADAPTER_LIST_RESTORE_KEY = "adapter_list";
+
     public enum SortKey {
         AGE,
         GENDER
@@ -92,8 +94,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sortAdapterDataAndUpdate() {
-        final List<Person> oldItems = mAdapter.getItems();
-        final List<Person> newItems = new ArrayList<>(mAdapter.getItems());
+        final ArrayList<Person> oldItems = mAdapter.getItems();
+        final ArrayList<Person> newItems = new ArrayList<>(mAdapter.getItems());
         Comparator comparator = ComparatorController.getComparator(mSortKey, mIsSortAscending);
         Collections.sort(newItems, comparator);
         DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffUtil.Callback() {
@@ -119,8 +121,17 @@ public class MainActivity extends AppCompatActivity {
         });
         mAdapter.setItems(newItems);
         diffResult.dispatchUpdatesTo(mAdapter);
-//        mAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArrayList(ADAPTER_LIST_RESTORE_KEY, mAdapter.getItems());
+    }
 
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        mAdapter.setItems(savedInstanceState.<Person>getParcelableArrayList(ADAPTER_LIST_RESTORE_KEY));
+    }
 }
