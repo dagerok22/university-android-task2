@@ -5,45 +5,44 @@
     android:layout_height="match_parent"
     android:visibility="visible">
 
-
     <RadioGroup
-        android:id="@+id/ageGenderRadioGroup"
-        android:layout_width="250dp"
+        android:id="@+id/age_gender_radio_group"
+        android:layout_width="@dimen/radio_group_land_width"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <RadioButton
-            android:id="@+id/ageRadioButton"
+            android:id="@+id/age_radio_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/age_radio_btn" />
 
         <RadioButton
-            android:id="@+id/genderRadioButton"
-            android:layout_width="0dp"
+            android:id="@+id/gender_radio_button"
+            android:layout_width="@dimen/zero_dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/gender_radio_btn" />
     </RadioGroup>
 
     <RadioGroup
-        android:id="@+id/isAscendingRadioGroup"
-        android:layout_width="250dp"
+        android:id="@+id/is_ascending_radio_group"
+        android:layout_width="@dimen/radio_group_land_width"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ageGenderRadioGroup"
+        android:layout_below="@+id/age_gender_radio_group"
         android:orientation="horizontal">
 
         <RadioButton
-            android:id="@+id/ascendingRadioButton"
-            android:layout_width="0dp"
+            android:id="@+id/ascending_radio_button"
+            android:layout_width="@dimen/zero_dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/ascending_sort_radio_btn" />
 
         <RadioButton
-            android:id="@+id/descendingRadioButton3"
-            android:layout_width="0dp"
+            android:id="@+id/descending_radio_button"
+            android:layout_width="@dimen/zero_dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/descending_sort_radio_btn" />
@@ -54,7 +53,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/ageGenderRadioGroup">
+        android:layout_toEndOf="@+id/age_gender_radio_group">
 
     </android.support.v7.widget.RecyclerView>
 

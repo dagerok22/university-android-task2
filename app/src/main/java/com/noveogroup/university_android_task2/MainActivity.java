@@ -43,13 +43,13 @@ public class MainActivity extends AppCompatActivity {
         mIsSortAscending = true;
         FloatingActionButton mFab = (FloatingActionButton) findViewById(R.id.fab);
 
-        RadioGroup mAgeGenderRadioGroup = (RadioGroup) findViewById(R.id.ageGenderRadioGroup);
-        RadioGroup mIsAscendingSortRadioGroup = (RadioGroup) findViewById(R.id.isAscendingRadioGroup);
+        RadioGroup mAgeGenderRadioGroup = (RadioGroup) findViewById(R.id.age_gender_radio_group);
+        RadioGroup mIsAscendingSortRadioGroup = (RadioGroup) findViewById(R.id.is_ascending_radio_group);
 
         mDataset = new ArrayList<>();
         final PersonProvider personProvider = PersonProvider.getInstance();
 
-//        mDataset.addAll(personProvider.getPersonsList(20));
+        mDataset.addAll(personProvider.getPersonsList(20));
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.persons_recycler_view);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         mAgeGenderRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-                if (checkedId == R.id.ageRadioButton) {
+                if (checkedId == R.id.age_radio_button) {
                     mSortKey = SortKey.AGE;
                 } else {
                     mSortKey = SortKey.GENDER;
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         mIsAscendingSortRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-                mIsSortAscending = checkedId == R.id.ascendingRadioButton;
+                mIsSortAscending = checkedId == R.id.ascending_radio_button;
                 sortAdapterDataAndUpdate();
             }
         });
@@ -99,19 +99,19 @@ public class MainActivity extends AppCompatActivity {
         Comparator comparator = ComparatorController.getComparator(mSortKey, mIsSortAscending);
         Collections.sort(newItems, comparator);
         DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffUtil.Callback() {
-            public int getOldListSize(){
+            public int getOldListSize() {
                 return oldItems.size();
             }
 
-            public int getNewListSize(){
+            public int getNewListSize() {
                 return newItems.size();
             }
 
-            public boolean areItemsTheSame(int oldItemPosition, int newItemPosition){
+            public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
                 return oldItems.get(oldItemPosition).equals(newItems.get(newItemPosition));
             }
 
-            public boolean areContentsTheSame(int oldItemPosition, int newItemPosition){
+            public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
                 Person personOld = oldItems.get(oldItemPosition);
                 Person personNew = newItems.get(newItemPosition);
                 return personNew.getAge() == personOld.getAge() &&
