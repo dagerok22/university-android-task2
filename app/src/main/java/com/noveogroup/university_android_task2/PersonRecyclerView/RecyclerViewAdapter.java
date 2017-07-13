@@ -12,9 +12,6 @@ import com.noveogroup.university_android_task2.data.model.Person;
 
 import java.util.ArrayList;
 
-/**
- * Created by Sergey on 11.07.2017.
- */
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
@@ -52,15 +49,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.mGender.setText(
                 person.getGender() == Gender.MALE ? "man" : "woman"
         );
-    }
-
-    public void addItem(Person person){
-        dataset.add(0,person);
-        notifyDataSetChanged();
-    }
-
-    public ArrayList<Person>getDataset(){
-        return dataset;
     }
 
     @Override

@@ -10,6 +10,7 @@
         android:orientation="vertical">
 
         <RadioGroup
+            android:id="@+id/ageGenderRadioGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -30,6 +31,7 @@
         </RadioGroup>
 
         <RadioGroup
+            android:id="@+id/isAscendingRadioGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">

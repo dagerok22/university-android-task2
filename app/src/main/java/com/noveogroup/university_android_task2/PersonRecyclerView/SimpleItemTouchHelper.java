@@ -5,10 +5,11 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
 
-public class SimpleItemTouchHelper extends ItemTouchHelper.Callback {
+public class SimpleItemTouchHelper extends ItemTouchHelper.SimpleCallback {
     private RecyclerViewAdapter mAdapter;
 
     public SimpleItemTouchHelper(RecyclerViewAdapter mAdapter) {
+        super(ItemTouchHelper.UP | ItemTouchHelper.DOWN, 0);
         this.mAdapter = mAdapter;
     }
 
@@ -19,7 +20,8 @@ public class SimpleItemTouchHelper extends ItemTouchHelper.Callback {
 
     @Override
     public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-        return false;
+        mAdapter.notifyItemMoved(viewHolder.getAdapterPosition(), target.getAdapterPosition());
+        return true;
     }
 
     @Override
