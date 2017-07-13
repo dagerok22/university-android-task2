@@ -13,10 +13,13 @@ import android.widget.RadioGroup;
 import com.noveogroup.university_android_task2.PersonRecyclerView.RecyclerViewAdapter;
 import com.noveogroup.university_android_task2.PersonRecyclerView.SimpleItemTouchHelper;
 import com.noveogroup.university_android_task2.data.PersonProvider;
+import com.noveogroup.university_android_task2.data.comparator.ComparatorController;
 import com.noveogroup.university_android_task2.data.model.Person;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -50,13 +53,13 @@ public class MainActivity extends AppCompatActivity {
 
 //        mDataset.addAll(personProvider.getPersonsList(20));
         mRecyclerView = (RecyclerView) findViewById(R.id.persons_recycler_view);
-        mRecyclerView.setHasFixedSize(true);
 
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
+        mRecyclerView.setHasFixedSize(true);
 
         mAdapter = new RecyclerViewAdapter(mDataset);
-        mAdapter.setHasStableIds(true);
+//        mAdapter.setHasStableIds(true);
         mRecyclerView.setAdapter(mAdapter);
 
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelper(mAdapter);
@@ -97,29 +100,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sortAdapterDataAndUpdate() {
-        mAdapter.dataset.sort(new Comparator<Person>() {
-            @Override
-            public int compare(Person o1, Person o2) {
-                if (mSortKey == SortKey.GENDER) {
-                    if (o1.getGender().equals(o2.getGender())) {
-                        return mIsSortAscending ? o1.getName().compareTo(o2.getName()) :
-                                o1.getName().compareTo(o2.getName()) * -1;
-                    } else {
-                        return mIsSortAscending ? o1.getGender().compareTo(o2.getGender()) :
-                                o1.getGender().compareTo(o2.getGender()) * -1;
-                    }
-                } else {
-                    if (o1.getAge() == o2.getAge()) {
-                        return mIsSortAscending ? o1.getName().compareTo(o2.getName()) :
-                                o1.getName().compareTo(o2.getName()) * -1;
-                    } else {
-                        return o1.getAge() > o2.getAge() ?
-                                mIsSortAscending ? 1 : -1 : mIsSortAscending ? -1 : 1;
-                    }
-                }
-            }
-        });
-//        mAdapter.notifyDataSetChanged();
+        List<Person> items = new ArrayList<>(mAdapter.getItems());
+        Comparator comparator = ComparatorController.getComparator(mSortKey, mIsSortAscending);
+        Collections.sort(items, comparator);
+        mAdapter.setItems(items);
+        mAdapter.notifyDataSetChanged();
     }
 
 

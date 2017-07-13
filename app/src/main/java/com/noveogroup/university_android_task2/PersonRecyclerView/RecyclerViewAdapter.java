@@ -11,13 +11,14 @@ import com.noveogroup.university_android_task2.data.model.Gender;
 import com.noveogroup.university_android_task2.data.model.Person;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
-    public ArrayList<Person> dataset;
+    ArrayList<Person> mDataSet;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         TextView mName;
         TextView mAge;
@@ -31,8 +32,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         }
     }
 
-    public RecyclerViewAdapter(ArrayList<Person> dataset) {
-        this.dataset = dataset;
+    public RecyclerViewAdapter(ArrayList<Person> data) {
+        this.mDataSet = data;
     }
 
     @Override
@@ -43,16 +44,30 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Person person = dataset.get(position);
+        Person person = mDataSet.get(position);
         holder.mName.setText(person.getName());
-        holder.mAge.setText(person.getAge() + "");
+        holder.mAge.setText(String.valueOf(person.getAge()));
         holder.mGender.setText(
                 person.getGender() == Gender.MALE ? "man" : "woman"
         );
     }
 
+    public List<Person> getItems() {
+        return mDataSet;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    public void setItems(final List<Person> newItems) {
+        mDataSet.clear();
+        mDataSet.addAll(newItems);
+    }
+
     @Override
     public int getItemCount() {
-        return dataset.size();
+        return mDataSet.size();
     }
 }
