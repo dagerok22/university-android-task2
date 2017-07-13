@@ -21,6 +21,7 @@ import com.noveogroup.university_android_task2.ui.adapter.helper.DiffUtilCallbac
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,17 +47,19 @@ public class MainActivity extends AppCompatActivity {
         dataSet = new ArrayList<>();
         final PersonProvider personProvider = PersonProvider.getInstance();
 
-        dataSet.addAll(personProvider.getPersonsList(20));
+        dataSet.addAll(personProvider.getPersonsList(7));
 
-        InitializeRecyclerView();
+        initializeRecyclerView();
 
-        InitializeAndSetUpAdapter();
+        initializeAndSetUpAdapter();
 
         findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dataSet.add(0, personProvider.getPerson());
-                adapter.notifyItemInserted(0);
+                Person person = personProvider.getPerson();
+                int placeToInsert = findPlaceToInsert(adapter, person);
+                adapter.getItems().add(placeToInsert, person);
+                adapter.notifyItemInserted(placeToInsert);
             }
         });
 
@@ -93,20 +96,32 @@ public class MainActivity extends AppCompatActivity {
         adapter.setItems(savedInstanceState.<Person>getParcelableArrayList(ADAPTER_LIST_RESTORE_KEY));
     }
 
-    private void InitializeRecyclerView(){
+    private void initializeRecyclerView() {
         recyclerView = (RecyclerView) findViewById(R.id.persons_recycler_view);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setHasFixedSize(true);
     }
 
-    private void InitializeAndSetUpAdapter() {
+    private void initializeAndSetUpAdapter() {
         adapter = new RecyclerViewAdapter(dataSet);
         recyclerView.setAdapter(adapter);
 
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelper(adapter);
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(recyclerView);
+    }
+
+    private int findPlaceToInsert(RecyclerViewAdapter adapter, Person itemToInsert) {
+        List<Person> list = adapter.getItems();
+        Comparator comparator = ComparatorController.getComparator(sortKey, isSortAscending);
+        for (Person item :
+                list) {
+            if (comparator.compare(itemToInsert, item) == -1) {
+                return list.indexOf(item);
+            }
+        }
+        return list.size() - 1;
     }
 
     private void sortAdapterDataAndUpdate() {
