@@ -1,4 +1,4 @@
-package com.noveogroup.university_android_task2.PersonRecyclerView;
+package com.noveogroup.university_android_task2.ui.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,29 +11,28 @@ import com.noveogroup.university_android_task2.data.model.Gender;
 import com.noveogroup.university_android_task2.data.model.Person;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
-    ArrayList<Person> mDataSet;
+    ArrayList<Person> dataSet;
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
-        TextView mName;
-        TextView mAge;
-        TextView mGender;
+        TextView name;
+        TextView age;
+        TextView gender;
 
         ViewHolder(View v) {
             super(v);
-            mName = (TextView) v.findViewById(R.id.person_view_name);
-            mAge = (TextView) v.findViewById(R.id.person_view_age);
-            mGender = (TextView) v.findViewById(R.id.person_view_gender);
+            name = (TextView) v.findViewById(R.id.person_view_name);
+            age = (TextView) v.findViewById(R.id.person_view_age);
+            gender = (TextView) v.findViewById(R.id.person_view_gender);
         }
     }
 
     public RecyclerViewAdapter(ArrayList<Person> data) {
-        this.mDataSet = data;
+        this.dataSet = data;
     }
 
     @Override
@@ -44,16 +43,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Person person = mDataSet.get(position);
-        holder.mName.setText(person.getName());
-        holder.mAge.setText(String.valueOf(person.getAge()));
-        holder.mGender.setText(
+        Person person = dataSet.get(position);
+        holder.name.setText(person.getName());
+        holder.age.setText(String.valueOf(person.getAge()));
+        holder.gender.setText(
                 person.getGender() == Gender.MALE ? "man" : "woman"
         );
     }
 
     public ArrayList<Person> getItems() {
-        return mDataSet;
+        return dataSet;
     }
 
     @Override
@@ -62,12 +61,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     public void setItems(final ArrayList<Person> newItems) {
-        mDataSet.clear();
-        mDataSet.addAll(newItems);
+        dataSet.clear();
+        dataSet.addAll(newItems);
     }
 
     @Override
     public int getItemCount() {
-        return mDataSet.size();
+        return dataSet.size();
     }
 }

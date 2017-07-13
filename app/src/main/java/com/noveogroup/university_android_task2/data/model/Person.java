@@ -15,11 +15,9 @@ public class Person implements Parcelable {
     }
 
     private Person(Parcel source) {
-        String []data = new String[3];
-        source.readStringArray(data);
-        this.name = String.valueOf(data[0]);
-        this.age = Integer.valueOf(data[1]);
-        this.gender = data[2].equals("MALE") ? Gender.MALE  : Gender.FEMALE;
+        this.name = source.readString();
+        this.age = source.readInt();
+        this.gender = (Gender) source.readSerializable();
     }
 
     public String getName() {
@@ -46,9 +44,9 @@ public class Person implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeStringArray(new String[] {
-                name, String.valueOf(age),
-                gender == Gender.MALE ? "MALE" : "FEMALE"});
+        dest.writeString(name);
+        dest.writeInt(age);
+        dest.writeSerializable(gender);
     }
 
     public static final Parcelable.Creator<Person> CREATOR = new Parcelable.Creator<Person>() {

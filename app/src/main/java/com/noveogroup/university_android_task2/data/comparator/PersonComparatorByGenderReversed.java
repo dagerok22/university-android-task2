@@ -4,11 +4,7 @@ import com.noveogroup.university_android_task2.data.model.Person;
 
 import java.util.Comparator;
 
-/**
- * Created by admin on 13.07.2017.
- */
-
-public class PersonComparatorByGenderReversed implements Comparator<Person> {
+class PersonComparatorByGenderReversed implements Comparator<Person> {
     @Override
     public int compare(Person o1, Person o2) {
         if (o2.getGender().equals(o1.getGender())) {
