@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -23,13 +24,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private FloatingActionButton mFab;
-    private RecyclerView mRecyclerView;
     private RecyclerViewAdapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<Person> mDataset;
-    private RadioGroup mAgeGenderRadioGroup;
-    private RadioGroup mIsAscendingSortRadioGroup;
     private boolean mIsSortAscending;
     private SortKey mSortKey;
 
@@ -43,18 +39,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mIsSortAscending = true;
-        mFab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton mFab = (FloatingActionButton) findViewById(R.id.fab);
 
-        mAgeGenderRadioGroup = (RadioGroup) findViewById(R.id.ageGenderRadioGroup);
-        mIsAscendingSortRadioGroup = (RadioGroup) findViewById(R.id.isAscendingRadioGroup);
+        RadioGroup mAgeGenderRadioGroup = (RadioGroup) findViewById(R.id.ageGenderRadioGroup);
+        RadioGroup mIsAscendingSortRadioGroup = (RadioGroup) findViewById(R.id.isAscendingRadioGroup);
 
         mDataset = new ArrayList<>();
         final PersonProvider personProvider = PersonProvider.getInstance();
 
 //        mDataset.addAll(personProvider.getPersonsList(20));
-        mRecyclerView = (RecyclerView) findViewById(R.id.persons_recycler_view);
+        RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.persons_recycler_view);
 
-        mLayoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setHasFixedSize(true);
 
@@ -78,9 +74,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
                 if (checkedId == R.id.ageRadioButton) {
-                    mSortKey = mSortKey.AGE;
+                    mSortKey = SortKey.AGE;
                 } else {
-                    mSortKey = mSortKey.GENDER;
+                    mSortKey = SortKey.GENDER;
                 }
                 sortAdapterDataAndUpdate();
             }
@@ -89,22 +85,41 @@ public class MainActivity extends AppCompatActivity {
         mIsAscendingSortRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-                if (checkedId == R.id.ascendingRadioButton) {
-                    mIsSortAscending = true;
-                } else {
-                    mIsSortAscending = false;
-                }
+                mIsSortAscending = checkedId == R.id.ascendingRadioButton;
                 sortAdapterDataAndUpdate();
             }
         });
     }
 
     private void sortAdapterDataAndUpdate() {
-        List<Person> items = new ArrayList<>(mAdapter.getItems());
+        final List<Person> oldItems = mAdapter.getItems();
+        final List<Person> newItems = new ArrayList<>(mAdapter.getItems());
         Comparator comparator = ComparatorController.getComparator(mSortKey, mIsSortAscending);
-        Collections.sort(items, comparator);
-        mAdapter.setItems(items);
-        mAdapter.notifyDataSetChanged();
+        Collections.sort(newItems, comparator);
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffUtil.Callback() {
+            public int getOldListSize(){
+                return oldItems.size();
+            }
+
+            public int getNewListSize(){
+                return newItems.size();
+            }
+
+            public boolean areItemsTheSame(int oldItemPosition, int newItemPosition){
+                return oldItems.get(oldItemPosition).equals(newItems.get(newItemPosition));
+            }
+
+            public boolean areContentsTheSame(int oldItemPosition, int newItemPosition){
+                Person personOld = oldItems.get(oldItemPosition);
+                Person personNew = newItems.get(newItemPosition);
+                return personNew.getAge() == personOld.getAge() &&
+                        personNew.getGender().equals(personOld.getGender()) &&
+                        personNew.getName().equals(personOld.getName());
+            }
+        });
+        mAdapter.setItems(newItems);
+        diffResult.dispatchUpdatesTo(mAdapter);
+//        mAdapter.notifyDataSetChanged();
     }
 
 
