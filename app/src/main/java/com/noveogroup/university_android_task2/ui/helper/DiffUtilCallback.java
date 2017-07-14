@@ -5,13 +5,14 @@ import android.support.v7.util.DiffUtil;
 import com.noveogroup.university_android_task2.data.model.Person;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DiffUtilCallback extends DiffUtil.Callback {
 
-    private ArrayList<Person> oldData;
-    private ArrayList<Person> newData;
+    private List<Person> oldData;
+    private List<Person> newData;
 
-    public DiffUtilCallback(ArrayList<Person> oldData, ArrayList<Person> newData) {
+    public DiffUtilCallback(List<Person> oldData, List<Person> newData) {
         this.oldData = oldData;
         this.newData = newData;
     }

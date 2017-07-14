@@ -17,6 +17,7 @@ import com.noveogroup.university_android_task2.R;
 import com.noveogroup.university_android_task2.data.PersonProvider;
 import com.noveogroup.university_android_task2.data.comparator.ComparatorFactory;
 import com.noveogroup.university_android_task2.data.model.Person;
+import com.noveogroup.university_android_task2.ui.helper.DiffResultCalculator;
 import com.noveogroup.university_android_task2.ui.helper.SimpleItemTouchHelper;
 import com.noveogroup.university_android_task2.ui.helper.DiffUtilCallback;
 
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private FloatingActionButton fab;
     private RadioGroup ageGenderRadioGroup;
     private RadioGroup isAscendingRadioGroup;
+    private DiffResultCalculator diffResult;
 
     private static final String ADAPTER_LIST_RESTORE_KEY = "adapter_list";
 
@@ -53,10 +55,13 @@ public class MainActivity extends AppCompatActivity {
         initializeViews();
 
         initializeRecyclerView();
+        initializeHelpers();
 
         initializeAndSetUpAdapter();
 
-        if (savedInstanceState != null && savedInstanceState.<Person>getParcelableArrayList(ADAPTER_LIST_RESTORE_KEY).isEmpty()) {
+
+        if (savedInstanceState != null &&
+                savedInstanceState.<Person>getParcelableArrayList(ADAPTER_LIST_RESTORE_KEY).isEmpty()) {
             sortAdapterDataAndUpdate();
         }
 
@@ -103,7 +108,11 @@ public class MainActivity extends AppCompatActivity {
         adapter.setItems(savedInstanceState.<Person>getParcelableArrayList(ADAPTER_LIST_RESTORE_KEY));
     }
 
-    private void initializeViews(){
+    private void initializeHelpers() {
+        diffResult = new DiffResultCalculator();
+    }
+
+    private void initializeViews() {
         fab = (FloatingActionButton) findViewById(R.id.fab);
         ageGenderRadioGroup = (RadioGroup) findViewById(R.id.age_gender_radio_group);
         isAscendingRadioGroup = (RadioGroup) findViewById(R.id.is_ascending_radio_group);
@@ -143,8 +152,12 @@ public class MainActivity extends AppCompatActivity {
         Comparator comparator = ComparatorFactory.getComparator(sortKey, isSortAscending);
         Collections.sort(newItems, comparator);
 
-        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffUtilCallback(oldItems, newItems));
+        diffResult.calculate(oldItems, newItems, new DiffResultCalculator.Callback() {
+            @Override
+            public void showResult(DiffUtil.DiffResult result) {
+                result.dispatchUpdatesTo(adapter);
+            }
+        });
         adapter.setItems(newItems);
-        diffResult.dispatchUpdatesTo(adapter);
     }
 }
