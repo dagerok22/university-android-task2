@@ -1,4 +1,4 @@
-package com.noveogroup.university_android_task2.ui.adapter.helper;
+package com.noveogroup.university_android_task2.ui.helper;
 
 import android.support.v7.util.DiffUtil;
 

@@ -1,71 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
 
-    <RadioGroup
-        android:id="@+id/age_gender_radio_group"
-        android:layout_width="@dimen/radio_group_land_width"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:id="@+id/age_radio_button"
-            android:layout_width="@dimen/zero_dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/age_radio_btn" />
-
-        <RadioButton
-            android:id="@+id/gender_radio_button"
-            android:layout_width="@dimen/zero_dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/gender_radio_btn" />
-    </RadioGroup>
-
-    <RadioGroup
-        android:id="@+id/is_ascending_radio_group"
-        android:layout_width="@dimen/radio_group_land_width"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/age_gender_radio_group"
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:id="@+id/ascending_radio_button"
-            android:layout_width="@dimen/zero_dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/ascending_sort_radio_btn" />
-
-        <RadioButton
-            android:id="@+id/descending_radio_button"
-            android:layout_width="@dimen/zero_dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/descending_sort_radio_btn" />
-    </RadioGroup>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/persons_recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/age_gender_radio_group">
-
-    </android.support.v7.widget.RecyclerView>
-
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:fabSize="normal"
-        app:srcCompat="@drawable/add" />
+        android:orientation="vertical"
+        android:padding="@dimen/four_dp">
 
-</RelativeLayout>
+        <RadioGroup
+            android:id="@+id/age_gender_radio_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/age_radio_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/age_radio_btn" />
+
+            <RadioButton
+                android:id="@+id/gender_radio_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/gender_radio_btn" />
+        </RadioGroup>
+
+        <RadioGroup
+            android:id="@+id/is_ascending_radio_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/ascending_radio_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/ascending_sort_radio_btn" />
+
+            <RadioButton
+                android:id="@+id/descending_radio_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/descending_sort_radio_btn" />
+        </RadioGroup>
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/four_dp">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/persons_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+            app:fabSize="normal"
+            app:srcCompat="@drawable/add" />
+    </FrameLayout>
+</LinearLayout>

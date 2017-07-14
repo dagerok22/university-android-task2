@@ -2,6 +2,7 @@ package com.noveogroup.university_android_task2.ui.activity;
 
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,10 +15,10 @@ import com.noveogroup.university_android_task2.data.model.SortKey;
 import com.noveogroup.university_android_task2.ui.adapter.RecyclerViewAdapter;
 import com.noveogroup.university_android_task2.R;
 import com.noveogroup.university_android_task2.data.PersonProvider;
-import com.noveogroup.university_android_task2.data.comparator.ComparatorController;
+import com.noveogroup.university_android_task2.data.comparator.ComparatorFactory;
 import com.noveogroup.university_android_task2.data.model.Person;
-import com.noveogroup.university_android_task2.ui.adapter.SimpleItemTouchHelper;
-import com.noveogroup.university_android_task2.ui.adapter.helper.DiffUtilCallback;
+import com.noveogroup.university_android_task2.ui.helper.SimpleItemTouchHelper;
+import com.noveogroup.university_android_task2.ui.helper.DiffUtilCallback;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
     private boolean isSortAscending;
     private SortKey sortKey;
     private RecyclerView recyclerView;
+    private FloatingActionButton fab;
+    private RadioGroup ageGenderRadioGroup;
+    private RadioGroup isAscendingRadioGroup;
 
     private static final String ADAPTER_LIST_RESTORE_KEY = "adapter_list";
 
@@ -46,15 +50,17 @@ public class MainActivity extends AppCompatActivity {
 
         dataSet.addAll(personProvider.getPersonsList(7));
 
+        initializeViews();
+
         initializeRecyclerView();
 
         initializeAndSetUpAdapter();
 
-        if (!dataSet.isEmpty()) {
+        if (savedInstanceState != null && savedInstanceState.<Person>getParcelableArrayList(ADAPTER_LIST_RESTORE_KEY).isEmpty()) {
             sortAdapterDataAndUpdate();
         }
 
-        findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Person person = personProvider.getPerson();
@@ -64,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ((RadioGroup) findViewById(R.id.age_gender_radio_group)).setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        ageGenderRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
                 if (checkedId == R.id.age_radio_button) {
@@ -76,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ((RadioGroup) findViewById(R.id.is_ascending_radio_group)).setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        isAscendingRadioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
                 isSortAscending = checkedId == R.id.ascending_radio_button;
@@ -97,8 +103,14 @@ public class MainActivity extends AppCompatActivity {
         adapter.setItems(savedInstanceState.<Person>getParcelableArrayList(ADAPTER_LIST_RESTORE_KEY));
     }
 
-    private void initializeRecyclerView() {
+    private void initializeViews(){
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        ageGenderRadioGroup = (RadioGroup) findViewById(R.id.age_gender_radio_group);
+        isAscendingRadioGroup = (RadioGroup) findViewById(R.id.is_ascending_radio_group);
         recyclerView = (RecyclerView) findViewById(R.id.persons_recycler_view);
+    }
+
+    private void initializeRecyclerView() {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setHasFixedSize(true);
@@ -116,9 +128,8 @@ public class MainActivity extends AppCompatActivity {
 
     private int findPlaceToInsert(RecyclerViewAdapter adapter, Person itemToInsert) {
         List<Person> list = adapter.getItems();
-        Comparator comparator = ComparatorController.getComparator(sortKey, isSortAscending);
-        for (Person item :
-                list) {
+        Comparator comparator = ComparatorFactory.getComparator(sortKey, isSortAscending);
+        for (Person item : list) {
             if (comparator.compare(itemToInsert, item) == -1) {
                 return list.indexOf(item);
             }
@@ -129,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
     private void sortAdapterDataAndUpdate() {
         final ArrayList<Person> oldItems = adapter.getItems();
         final ArrayList<Person> newItems = new ArrayList<>(adapter.getItems());
-        Comparator comparator = ComparatorController.getComparator(sortKey, isSortAscending);
+        Comparator comparator = ComparatorFactory.getComparator(sortKey, isSortAscending);
         Collections.sort(newItems, comparator);
 
         DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffUtilCallback(oldItems, newItems));

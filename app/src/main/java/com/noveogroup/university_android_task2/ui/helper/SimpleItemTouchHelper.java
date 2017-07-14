@@ -1,8 +1,10 @@
-package com.noveogroup.university_android_task2.ui.adapter;
+package com.noveogroup.university_android_task2.ui.helper;
 
 import android.graphics.Canvas;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+
+import com.noveogroup.university_android_task2.ui.adapter.RecyclerViewAdapter;
 
 
 public class SimpleItemTouchHelper extends ItemTouchHelper.SimpleCallback {
@@ -27,7 +29,7 @@ public class SimpleItemTouchHelper extends ItemTouchHelper.SimpleCallback {
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
         int position = viewHolder.getAdapterPosition();
-        adapter.dataSet.remove(position);
+        adapter.getItems().remove(position);
         adapter.notifyItemRemoved(position);
     }
 

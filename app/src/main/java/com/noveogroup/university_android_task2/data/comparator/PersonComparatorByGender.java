@@ -16,7 +16,8 @@ class PersonComparatorByGender implements Comparator<Person> {
         if (o1.getGender() == o2.getGender()) {
             return o1.getName().compareTo(o2.getName());
         } else {
-            return (isAscending ? 1 : -1) * o1.getGender().compareTo(o2.getGender());
+            return isAscending ? o1.getGender().compareTo(o2.getGender()):
+                    o2.getGender().compareTo(o1.getGender());
         }
     }
 
