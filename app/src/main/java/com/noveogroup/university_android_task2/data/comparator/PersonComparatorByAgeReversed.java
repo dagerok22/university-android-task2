@@ -8,9 +8,9 @@ class PersonComparatorByAgeReversed implements Comparator<Person> {
     @Override
     public int compare(Person o1, Person o2) {
         if (o2.getAge() == o1.getAge()) {
-            return o2.getName().compareTo(o1.getName());
+            return o1.getName().compareTo(o2.getName());
         } else {
-            return o2.getAge() > o1.getAge() ? 1 : -1;
+            return Integer.compare(o2.getAge(), o1.getAge());
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.noveogroup.university_android_task2.ui.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
     ArrayList<Person> dataSet;
+    private Context parentContext;
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
@@ -37,6 +39,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (parentContext == null) {
+            parentContext = parent.getContext();
+        }
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.person_view, parent, false);
         return new ViewHolder(v);
     }
@@ -47,7 +52,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.name.setText(person.getName());
         holder.age.setText(String.valueOf(person.getAge()));
         holder.gender.setText(
-                person.getGender() == Gender.MALE ? "man" : "woman"
+                person.getGender() == Gender.MALE ? parentContext.getResources().getString(R.string.man) : parentContext.getResources().getString(R.string.woman)
         );
     }
 

@@ -10,6 +10,7 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.widget.RadioGroup;
 
+import com.noveogroup.university_android_task2.data.model.SortKey;
 import com.noveogroup.university_android_task2.ui.adapter.RecyclerViewAdapter;
 import com.noveogroup.university_android_task2.R;
 import com.noveogroup.university_android_task2.data.PersonProvider;
@@ -33,10 +34,6 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String ADAPTER_LIST_RESTORE_KEY = "adapter_list";
 
-    public enum SortKey {
-        AGE,
-        GENDER
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +49,10 @@ public class MainActivity extends AppCompatActivity {
         initializeRecyclerView();
 
         initializeAndSetUpAdapter();
+
+        if (!dataSet.isEmpty()) {
+            sortAdapterDataAndUpdate();
+        }
 
         findViewById(R.id.fab).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initializeAndSetUpAdapter() {
         adapter = new RecyclerViewAdapter(dataSet);
+//        adapter.setHasStableIds(true);
         recyclerView.setAdapter(adapter);
 
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelper(adapter);

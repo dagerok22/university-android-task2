@@ -4,4 +4,6 @@
     <string name="gender_radio_btn">Gender</string>
     <string name="ascending_sort_radio_btn">Ascending sort</string>
     <string name="descending_sort_radio_btn">Descending sort</string>
+    <string name="man">man</string>
+    <string name="woman">woman</string>
 </resources>
