@@ -16,7 +16,7 @@ class PersonComparatorByAge implements Comparator<Person> {
         if (o1.getAge() == o2.getAge()) {
             return o1.getName().compareTo(o2.getName());
         } else {
-            return isAscending ? Integer.compare(o1.getAge(), o2.getAge()):
+            return isAscending ? Integer.compare(o1.getAge(), o2.getAge()) :
                     Integer.compare(o2.getAge(), o1.getAge());
         }
     }

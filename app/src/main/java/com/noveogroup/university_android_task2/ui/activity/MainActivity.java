@@ -11,13 +11,13 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.widget.RadioGroup;
 
-import com.noveogroup.university_android_task2.data.model.SortKey;
-import com.noveogroup.university_android_task2.ui.adapter.RecyclerViewAdapter;
 import com.noveogroup.university_android_task2.R;
 import com.noveogroup.university_android_task2.data.PersonProvider;
 import com.noveogroup.university_android_task2.data.comparator.ComparatorFactory;
-import com.noveogroup.university_android_task2.data.model.Person;
 import com.noveogroup.university_android_task2.data.diffutil.DiffResultCalculator;
+import com.noveogroup.university_android_task2.data.model.Person;
+import com.noveogroup.university_android_task2.data.model.SortKey;
+import com.noveogroup.university_android_task2.ui.adapter.RecyclerViewAdapter;
 import com.noveogroup.university_android_task2.ui.helper.SimpleItemTouchHelper;
 
 import java.util.ArrayList;
@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                     savedInstanceState.<Person>getParcelableArrayList(ADAPTER_LIST_RESTORE_KEY).isEmpty()) {
                 sortAdapterDataAndUpdate();
             }
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
 
@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
 
     private int findPlaceToInsert(RecyclerViewAdapter adapter, Person itemToInsert) {
         List<Person> list = adapter.getItems();
-        if (list.size() == 0){
+        if (list.size() == 0) {
             return 0;
         }
         Comparator<Person> comparator = ComparatorFactory.getComparator(sortKey, isSortAscending);

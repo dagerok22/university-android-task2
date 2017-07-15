@@ -8,9 +8,8 @@ import java.util.List;
 import java.util.Random;
 
 public class PersonProvider {
-    private static PersonProvider INSTANCE = new PersonProvider();
     private final static List<String> POSSIBLE_NAMES = new ArrayList<>();
-    private final Random random;
+    private static PersonProvider INSTANCE = new PersonProvider();
 
     static {
         POSSIBLE_NAMES.add("Tyrion");
@@ -27,12 +26,14 @@ public class PersonProvider {
         POSSIBLE_NAMES.add("Nymeria");
     }
 
-    public static PersonProvider getInstance() {
-        return INSTANCE;
-    }
+    private final Random random;
 
     private PersonProvider() {
         random = new Random();
+    }
+
+    public static PersonProvider getInstance() {
+        return INSTANCE;
     }
 
     public Person getPerson() {
