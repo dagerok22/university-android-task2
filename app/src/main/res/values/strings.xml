@@ -6,4 +6,6 @@
     <string name="descending_sort_radio_btn">Descending</string>
     <string name="man">man</string>
     <string name="woman">woman</string>
+    <string name="age_gender_radio_buttons_weight">1</string>
+    <string name="ascending_descending_radio_buttons_weight">1</string>
 </resources>

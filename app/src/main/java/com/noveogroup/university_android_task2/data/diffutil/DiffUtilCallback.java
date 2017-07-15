@@ -1,18 +1,17 @@
-package com.noveogroup.university_android_task2.ui.helper;
+package com.noveogroup.university_android_task2.data.diffutil;
 
 import android.support.v7.util.DiffUtil;
 
 import com.noveogroup.university_android_task2.data.model.Person;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class DiffUtilCallback extends DiffUtil.Callback {
+class DiffUtilCallback extends DiffUtil.Callback {
 
     private List<Person> oldData;
     private List<Person> newData;
 
-    public DiffUtilCallback(List<Person> oldData, List<Person> newData) {
+    DiffUtilCallback(List<Person> oldData, List<Person> newData) {
         this.oldData = oldData;
         this.newData = newData;
     }

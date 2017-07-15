@@ -17,9 +17,8 @@ import com.noveogroup.university_android_task2.R;
 import com.noveogroup.university_android_task2.data.PersonProvider;
 import com.noveogroup.university_android_task2.data.comparator.ComparatorFactory;
 import com.noveogroup.university_android_task2.data.model.Person;
-import com.noveogroup.university_android_task2.ui.helper.DiffResultCalculator;
+import com.noveogroup.university_android_task2.data.diffutil.DiffResultCalculator;
 import com.noveogroup.university_android_task2.ui.helper.SimpleItemTouchHelper;
-import com.noveogroup.university_android_task2.ui.helper.DiffUtilCallback;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -60,9 +59,13 @@ public class MainActivity extends AppCompatActivity {
         initializeAndSetUpAdapter();
 
 
-        if (savedInstanceState != null &&
-                savedInstanceState.<Person>getParcelableArrayList(ADAPTER_LIST_RESTORE_KEY).isEmpty()) {
-            sortAdapterDataAndUpdate();
+        try {
+            if (savedInstanceState != null &&
+                    savedInstanceState.<Person>getParcelableArrayList(ADAPTER_LIST_RESTORE_KEY).isEmpty()) {
+                sortAdapterDataAndUpdate();
+            }
+        }catch (NullPointerException e){
+            e.printStackTrace();
         }
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -127,7 +130,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void initializeAndSetUpAdapter() {
         adapter = new RecyclerViewAdapter(dataSet);
-//        adapter.setHasStableIds(true);
         recyclerView.setAdapter(adapter);
 
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelper(adapter);
@@ -137,7 +139,10 @@ public class MainActivity extends AppCompatActivity {
 
     private int findPlaceToInsert(RecyclerViewAdapter adapter, Person itemToInsert) {
         List<Person> list = adapter.getItems();
-        Comparator comparator = ComparatorFactory.getComparator(sortKey, isSortAscending);
+        if (list.size() == 0){
+            return 0;
+        }
+        Comparator<Person> comparator = ComparatorFactory.getComparator(sortKey, isSortAscending);
         for (Person item : list) {
             if (comparator.compare(itemToInsert, item) == -1) {
                 return list.indexOf(item);
@@ -149,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
     private void sortAdapterDataAndUpdate() {
         final ArrayList<Person> oldItems = adapter.getItems();
         final ArrayList<Person> newItems = new ArrayList<>(adapter.getItems());
-        Comparator comparator = ComparatorFactory.getComparator(sortKey, isSortAscending);
+        Comparator<Person> comparator = ComparatorFactory.getComparator(sortKey, isSortAscending);
         Collections.sort(newItems, comparator);
 
         diffResult.calculate(oldItems, newItems, new DiffResultCalculator.Callback() {
