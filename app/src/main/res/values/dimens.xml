@@ -3,5 +3,6 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="zero_dp">0dp</dimen>
     <dimen name="radio_group_land_width">250dp</dimen>
-    <dimen name="four_dp">4dp</dimen>
+    <dimen name="filter_groups_linear_layout_padding">4dp</dimen>
+    <dimen name="recycler_wrapper_frame_padding">4dp</dimen>
 </resources>
