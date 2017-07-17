@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="zero_dp">0dp</dimen>
     <dimen name="filter_groups_linear_layout_padding">4dp</dimen>
     <dimen name="recycler_wrapper_frame_padding">4dp</dimen>
+    <dimen name="is_ascending_radio_buttons_width">0dp</dimen>
+    <dimen name="age_gender_radio_buttons_width">0dp</dimen>
 </resources>

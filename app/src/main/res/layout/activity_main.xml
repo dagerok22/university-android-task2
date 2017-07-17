@@ -17,14 +17,15 @@
 
             <RadioButton
                 android:id="@+id/age_radio_button"
-                android:layout_width="@dimen/zero_dp"
+                android:layout_width="@dimen/age_gender_radio_buttons_width"
                 android:layout_height="wrap_content"
                 android:layout_weight="@string/age_gender_radio_buttons_weight"
+                android:checked="true"
                 android:text="@string/age_radio_btn" />
 
             <RadioButton
                 android:id="@+id/gender_radio_button"
-                android:layout_width="@dimen/zero_dp"
+                android:layout_width="@dimen/age_gender_radio_buttons_width"
                 android:layout_height="wrap_content"
                 android:layout_weight="@string/age_gender_radio_buttons_weight"
                 android:text="@string/gender_radio_btn" />
@@ -38,14 +39,15 @@
 
             <RadioButton
                 android:id="@+id/ascending_radio_button"
-                android:layout_width="@dimen/zero_dp"
+                android:layout_width="@dimen/is_ascending_radio_buttons_width"
                 android:layout_height="wrap_content"
                 android:layout_weight="@string/ascending_descending_radio_buttons_weight"
+                android:checked="true"
                 android:text="@string/ascending_sort_radio_btn" />
 
             <RadioButton
                 android:id="@+id/descending_radio_button"
-                android:layout_width="@dimen/zero_dp"
+                android:layout_width="@dimen/is_ascending_radio_buttons_width"
                 android:layout_height="wrap_content"
                 android:layout_weight="@string/ascending_descending_radio_buttons_weight"
                 android:text="@string/descending_sort_radio_btn" />

@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private RadioGroup ageGenderRadioGroup;
     private RadioGroup isAscendingRadioGroup;
     private DiffResultCalculator diffResult;
+    private PersonProvider personProvider;
 
     private static final String ADAPTER_LIST_RESTORE_KEY = "adapter_list";
 
@@ -45,9 +46,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         isSortAscending = true;
+        sortKey = SortKey.AGE;
 
         dataSet = new ArrayList<>();
-        final PersonProvider personProvider = PersonProvider.getInstance();
+        personProvider = PersonProvider.getInstance();
 
         dataSet.addAll(personProvider.getPersonsList(7));
 
@@ -58,16 +60,19 @@ public class MainActivity extends AppCompatActivity {
 
         initializeAndSetUpAdapter();
 
+        setUpListeners();
 
-        try {
-            if (savedInstanceState != null &&
-                    savedInstanceState.<Person>getParcelableArrayList(ADAPTER_LIST_RESTORE_KEY).isEmpty()) {
-                sortAdapterDataAndUpdate();
-            }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
+
+        if (savedInstanceState != null &&
+                savedInstanceState.<Person>getParcelableArrayList(ADAPTER_LIST_RESTORE_KEY) != null &&
+                savedInstanceState.<Person>getParcelableArrayList(ADAPTER_LIST_RESTORE_KEY).isEmpty()) {
         }
+        sortAdapterDataAndUpdate();
 
+
+    }
+
+    private void setUpListeners() {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
 
     private int findPlaceToInsert(RecyclerViewAdapter adapter, Person itemToInsert) {
         List<Person> list = adapter.getItems();
-        if (list.size() == 0) {
+        if (list.isEmpty()) {
             return 0;
         }
         Comparator<Person> comparator = ComparatorFactory.getComparator(sortKey, isSortAscending);

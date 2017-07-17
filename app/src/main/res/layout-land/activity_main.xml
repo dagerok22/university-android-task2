@@ -19,6 +19,7 @@
 
             <RadioButton
                 android:id="@+id/age_radio_button"
+                android:checked="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="@string/age_gender_radio_buttons_weight"
@@ -41,6 +42,7 @@
             <RadioButton
                 android:id="@+id/ascending_radio_button"
                 android:layout_width="wrap_content"
+                android:checked="true"
                 android:layout_height="wrap_content"
                 android:layout_weight="@string/ascending_descending_radio_buttons_weight"
                 android:text="@string/ascending_sort_radio_btn" />
